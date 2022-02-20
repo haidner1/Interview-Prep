@@ -29,8 +29,18 @@ func youtubeinterview(response http.ResponseWriter, r *http.Request) {
 	fmt.Println("Endpoint", interviewtype)
 }
 
+func healthcheck(response http.ResponseWriter, r *http.Request) {
+	
+	response.WriteHeader(http.StatusOK)
+
+	return
+}
+
 func request() {
-	http.HandleFunc("/", youtubeinterview)
+	
+	http.HandleFunc("/", healthcheck)
+
+	http.HandleFunc("/interview", youtubeinterview)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
