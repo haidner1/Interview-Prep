@@ -14,5 +14,6 @@ spec:
     spec:
       containers:
         - name: gowebapi 
-          image: haidnerinterviewprep.azurecr.io
+          image: haidnerinterviewprep.azurecr.io/gowebapi
+          imagePullPolicy: Always
           ports:
