@@ -7,7 +7,7 @@ RUN export GO111MODULE=on
 RUN go install github.com/haidner1/Interview-Prep/app@latest
 RUN cd /build && git clone https://github.com/haidner1/Interview-Prep.git
 
-RUN cd /build/Interview-Prep/app && go mod init && go build
+RUN cd /build/Interview-Prep/app && go mod init github.com/haidner1/Interview-Prep/app && go build
 
 EXPOSE 8080
 
