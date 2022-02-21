@@ -1,18 +1,52 @@
-apiVersion : apps/v1
-kind: Deployment
-metadata:
-  name: gowebapi 
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: gowebapi
-  template:
-    metadata:
-      labels:
-        app: gowebapi 
-    spec:
-      containers:
-        - name: gowebapi 
-          image: haidnerinterviewprep.azurecr.io:latest
-          imagePullPolicy: Always       
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: goapp
+  spec:
+    finalizers:
+      - kubernetes
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: go-interview
+    namespace: goapp
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: go-interview
+    template:
+      metadata:
+        labels:
+          app: go-interview
+      spec:
+        nodeSelector:
+          beta.kubernetes.io/os: linux
+        containers:
+          - name: go-interview
+            image: gointerview.azurecr.io:latest
+	    imagePullPolicy: Always     
+            env:
+              - name: ALLOW_EMPTY_PASSWORD
+                value: 'yes'
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                cpu: 250m
+                memory: 256Mi
+            ports:
+              - containerPort: 8080
+                name: go-interview
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: go-interview
+    namespace: goapp
+  spec:
+    ports:
+      - port: 8080
+    selector:
+      app: go-interview
+ 
