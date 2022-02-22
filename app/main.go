@@ -19,7 +19,7 @@ func main() {
 func youtubeinterview(response http.ResponseWriter, r *http.Request) {
 	interviewtype := []interview{
 		interview{
-			Message:   "This is my YouTube Interview",
+			Message:   "Hello from Michael Haidner",
 			Timestamp: 01152020,
 		},
 	}
