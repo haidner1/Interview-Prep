@@ -3,14 +3,19 @@ kind: Deployment
 metadata:
   name: go-interview
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: go-interview
+  strategy:
+      type: RollingUpdate
+      rollingUpdate:
+         maxSurge: 0
+         maxUnavailable: 1
   template:
     metadata:
       labels:
-        app: go-interview 
+        app: go-interview      
     spec:
       containers:
         - name: go-interview 
