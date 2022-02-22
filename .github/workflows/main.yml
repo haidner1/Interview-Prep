@@ -3,9 +3,9 @@
 name: CI
 
 env:
-  resourceGroup: 'AZ-400'
+  resourceGroup: 'informed-mastiff-rg'
   kubernetesVersion: '1.19.6'
-  name: 'interviewprepaks92'
+  name: 'gointerview'
 
 # Controls when the action will run. 
 on:
