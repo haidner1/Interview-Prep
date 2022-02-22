@@ -19,7 +19,7 @@ func main() {
 func youtubeinterview(response http.ResponseWriter, r *http.Request) {
 	interviewtype := []interview{
 		interview{
-			Message:   "YouTube Interview",
+			Message:   "This is my YouTube Interview",
 			Timestamp: 01152020,
 		},
 	}
@@ -30,14 +30,14 @@ func youtubeinterview(response http.ResponseWriter, r *http.Request) {
 }
 
 func healthcheck(response http.ResponseWriter, r *http.Request) {
-	
+
 	response.WriteHeader(http.StatusOK)
 
 	return
 }
 
 func request() {
-	
+
 	//http.HandleFunc("/", healthcheck)
 
 	http.HandleFunc("/interview", youtubeinterview)
