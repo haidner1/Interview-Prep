@@ -30,29 +30,3 @@
             ports:
               - containerPort: 8080
                 name: go-interview
-- apiVersion: v1
-  kind: Service
-  metadata:
-    name: go-interview
-  spec:
-    ports:
-      - port: 8080
-        # Port to forward to inside the pod
-        targetPort: 8080
-    selector:
-      app: go-interview
- 
-- apiVersion: extensions/v1beta1
-  kind: Ingress
-  metadata:
-    name: test-ingress
-    annotations:
-      nginx.ingress.kubernetes.io/ssl-redirect: "false"
-  spec:
-    rules:
-    - http:
-        paths:
-        - path: /
-          backend:
-            serviceName: go-interview
-            servicePort: 8080
