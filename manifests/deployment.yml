@@ -20,5 +20,6 @@ spec:
       containers:
         - name: go-interview 
           image: gointerview.azurecr.io:latest
+          imagePullPolicy: Always
           ports:
           - containerPort: 8080
