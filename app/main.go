@@ -38,7 +38,7 @@ func healthcheck(response http.ResponseWriter, r *http.Request) {
 
 func request() {
 	
-	http.HandleFunc("/", healthcheck)
+	//http.HandleFunc("/", healthcheck)
 
 	http.HandleFunc("/interview", youtubeinterview)
 
