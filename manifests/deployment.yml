@@ -1,32 +1,19 @@
-apiVersion: apps/v1
+apiVersion : apps/v1
 kind: Deployment
-  metadata:
-    name: go-interview   
-  spec:
-    replicas: 1
-    selector:
-      matchLabels:
-        app: go-interview
-    template:
-      metadata:
-        labels:
-          app: go-interview
-      spec:
-        nodeSelector:
-          beta.kubernetes.io/os: linux
-        containers:
-          - name: go-interview
-            image: gointerview.azurecr.io:latest
-            env:
-              - name: ALLOW_EMPTY_PASSWORD
-                value: 'yes'
-            resources:
-              requests:
-                cpu: 100m
-                memory: 128Mi
-              limits:
-                cpu: 250m
-                memory: 256Mi
-            ports:
-              - containerPort: 8080
-                name: go-interview
+metadata:
+  name: go-interview
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-interview
+  template:
+    metadata:
+      labels:
+        app: go-interview 
+    spec:
+      containers:
+        - name: go-interview 
+          image: gointerview.azurecr.io:latest
+          ports:
+          - containerPort: 8080
