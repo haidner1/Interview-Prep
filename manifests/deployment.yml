@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: go-interview-app
-          image: gointerviewhaidner.azurecr.io/go/go-interview-app:latest
+          image: gointerviewhaidner.azurecr.io/go/gointerviewapp:latest
           imagePullPolicy: Always
           ports:
           - containerPort: 8080
