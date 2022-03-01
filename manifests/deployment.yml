@@ -13,7 +13,7 @@ spec:
         app: go-interview-app     
     spec:
       containers:
-        - name: go-interview-app
+        - name: gointerviewapp
           image: gointerviewhaidner.azurecr.io/go/gointerviewapp:latest
           imagePullPolicy: Always
           ports:
