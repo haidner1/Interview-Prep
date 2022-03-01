@@ -1,16 +1,16 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: go-interview-app
+  name: gointerviewapp
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app:  go-interview-app
+      app:  gointerviewapp
   template:
     metadata:
       labels:
-        app: go-interview-app     
+        app: gointerviewapp     
     spec:
       containers:
         - name: gointerviewapp
