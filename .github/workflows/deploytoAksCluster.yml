@@ -1,0 +1,63 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - uses: actions/checkout@master
+    
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Create ACR
+      id: create-acr
+      run: |
+        az acr create -n ContainerRegistryHaidner -g ContainerRegistryHaidner9e4f-rg --location "West US 2" --sku Basic --admin-enabled
+        echo "::set-output name=acr_username::`az acr credential show -n ContainerRegistryHaidner --query username | xargs`"
+        echo "::set-output name=acr_password::`az acr credential show -n ContainerRegistryHaidner --query passwords[0].value | xargs`"
+        echo "::add-mask::`az acr credential show -n ContainerRegistryHaidner --query passwords[0].value | xargs`"
+
+    - uses: azure/docker-login@v1
+      with:
+        login-server: containerregistryhaidner.azurecr.io
+        username: ${{ steps.create-acr.outputs.acr_username }}
+        password: ${{ steps.create-acr.outputs.acr_password }}
+
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t containerregistryhaidner.azurecr.io/bigcalfaks:${{ github.sha }} --label dockerfile-path=Dockerfile
+        docker push containerregistryhaidner.azurecr.io/bigcalfaks:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      id: login
+      with:
+         kubeconfig: ${{ secrets.aks_bigcalfaks_kubeConfig }}
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep big-calf-aksb0ff | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace big-calf-aksb0ff`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: big-calf-aksb0ff
+        container-registry-url: containerregistryhaidner.azurecr.io
+        container-registry-username: ${{ steps.create-acr.outputs.acr_username }}
+        container-registry-password: ${{ steps.create-acr.outputs.acr_password }}
+        secret-name: bigcalfaksdockerauth
+       
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: big-calf-aksb0ff
+        manifests: |
+          manifests/deployment-1.yml
+          manifests/service-1.yml
+        images: |
+          containerregistryhaidner.azurecr.io/bigcalfaks:${{ github.sha }}
+        imagepullsecrets: |
+          bigcalfaksdockerauth   
