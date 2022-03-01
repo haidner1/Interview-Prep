@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "bigcalfaks-8b39"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "bigcalfaks-8b39"
+  template:
+    metadata:
+      labels:
+        app: "bigcalfaks-8b39"
+    spec:
+      containers:
+        - name: "bigcalfaks-8b39"
+          image: "containerregistryhaidner.azurecr.io/bigcalfaks"
+          ports:
+          - containerPort: 8080
